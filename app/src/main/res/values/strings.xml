@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NikeChallenge</string>
+    <string name="search">search</string>
+    <string name="drawer">drawer</string>
+    <string name="most_liked">Most Liked</string>
+    <string name="most_disliked">Most Disliked</string>
+</resources>
