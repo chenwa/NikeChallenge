@@ -1,7 +1,7 @@
 package com.example.nikechallenge
 
 import com.example.nikechallenge.model.DefinitionResponse
-import com.example.nikechallenge.model.RapidApi
+import com.example.nikechallenge.model.IRapidApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.Test
@@ -33,7 +33,7 @@ class ApiUnitTest {
             .baseUrl("https://mashape-community-urban-dictionary.p.rapidapi.com/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-            .create(RapidApi::class.java)
+            .create(IRapidApi::class.java)
 
         retrofit.getResponse("test")
             .enqueue(object : Callback<DefinitionResponse> {

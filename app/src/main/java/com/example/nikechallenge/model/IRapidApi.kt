@@ -14,7 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
-interface RapidApi {
+interface IRapidApi {
 
     // Assume we do not need to hide our API Key
     @GET("define")
@@ -28,13 +28,13 @@ interface RapidApi {
 
     companion object {
         // Use retrofit to make RapidAPI call
-        fun initRetrofit(): RapidApi {
+        fun initRetrofit(): IRapidApi {
             return Retrofit.Builder()
                 .client(client)
                 .baseUrl("https://mashape-community-urban-dictionary.p.rapidapi.com/")
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
-                .create(RapidApi::class.java)
+                .create(IRapidApi::class.java)
         }
 
         val client: OkHttpClient by lazy {
@@ -77,6 +77,7 @@ interface RapidApi {
                 .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             var isConnected = false
+
             connectiviyManager.activeNetworkInfo?.let {
                 isConnected = it.isConnected
             }
