@@ -6,22 +6,17 @@ import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nikechallenge.R
 import com.example.nikechallenge.model.DefinitionResponse
 import com.example.nikechallenge.viewmodel.DefinitionsViewModel
-import com.example.nikechallenge.viewmodel.DefinitionsViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: DefinitionsViewModel by lazy {
-        ViewModelProvider(this,
-            DefinitionsViewModelFactory()
-        )
-            .get(DefinitionsViewModel::class.java)
-    }
+    private val definitionsViewModel: DefinitionsViewModel by viewModel()
+
     private val urbanAdapter : DefinitionListAdapter by lazy {
         DefinitionListAdapter()
     }
@@ -33,11 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         initViews()
 
-        viewModel.getUrbanDescription().observe(this,
+        definitionsViewModel.getUrbanDescription().observe(this,
             Observer<DefinitionResponse> { t ->
                 t?.let { initAdapter((it)) }
             })
-        viewModel.getUrbanDescriptionError().observe(this,
+        definitionsViewModel.getUrbanDescriptionError().observe(this,
             Observer<String> { t ->
                 t?.let { Toast.makeText(this@MainActivity, t, Toast.LENGTH_SHORT).show()}
             })
@@ -67,11 +62,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sortDownvotes() {
-        viewModel.sortDataDown()
+        definitionsViewModel.sortDataDown()
     }
 
     private fun sortUpvotes() {
-        viewModel.sortDataUp()
+        definitionsViewModel.sortDataUp()
     }
 
     fun initAdapter(dataSet: DefinitionResponse){
@@ -79,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun searchForDefinition(userInput: String) {
-        viewModel.getDefinitions(userInput)
+        definitionsViewModel.getDefinitions(userInput)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

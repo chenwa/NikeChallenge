@@ -6,14 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 
-class DefinitionsViewModel : ViewModel() {
+class DefinitionsViewModel(
+    private val repository: Repository
+) : ViewModel() {
 
     private val urbanDescription = MutableLiveData<DefinitionResponse>()
     private val urbanDescriptionError = MutableLiveData<String>()
-
-    private val repository: Repository by lazy {
-        Repository()
-    }
 
     fun getDefinitions(input: String) {
         repository.setListener(::updateObservable)
