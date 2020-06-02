@@ -27,14 +27,22 @@ interface IRapidApi {
     fun getResponse(@Query("term") input: String): Call<DefinitionResponse>
 
     companion object {
+        private lateinit var rapidAPI: IRapidApi
+
         // Use retrofit to make RapidAPI call
-        fun initRetrofit(): IRapidApi {
-            return Retrofit.Builder()
+        fun getRetrofit(): IRapidApi {
+            if (this::rapidAPI.isInitialized) {
+                return rapidAPI as IRapidApi
+            }
+
+            rapidAPI = Retrofit.Builder()
                 .client(client)
                 .baseUrl("https://mashape-community-urban-dictionary.p.rapidapi.com/")
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
                 .create(IRapidApi::class.java)
+
+            return rapidAPI
         }
 
         val client: OkHttpClient by lazy {

@@ -14,7 +14,7 @@ class Repository {
 
     private fun onWordDefinitionChanged(input: String) {
 
-        IRapidApi.initRetrofit().getResponse(input)
+        IRapidApi.getRetrofit().getResponse(input)
             .enqueue(object : Callback<DefinitionResponse> {
                 override fun onFailure(call: Call<DefinitionResponse>, t: Throwable) {
                     viewModelListener?.invoke(null)
