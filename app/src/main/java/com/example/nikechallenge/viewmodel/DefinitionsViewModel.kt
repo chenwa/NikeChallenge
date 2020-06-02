@@ -1,7 +1,7 @@
 package com.example.nikechallenge.viewmodel
 
-import com.example.nikechallenge.model.DefinitionResponse
-import com.example.nikechallenge.model.Repository
+import com.example.nikechallenge.model.data.DefinitionResponse
+import com.example.nikechallenge.model.network.Repository
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
@@ -31,7 +31,11 @@ class DefinitionsViewModel(
         urbanDescription.value?.list?.sortedWith(compareBy {
             it.thumbs_up
         })?.reversed()?.apply {
-            urbanDescription.postValue(DefinitionResponse(this))
+            urbanDescription.postValue(
+                DefinitionResponse(
+                    this
+                )
+            )
         }
     }
 
@@ -39,7 +43,11 @@ class DefinitionsViewModel(
         urbanDescription.value?.list?.sortedWith(compareBy {
             it.thumbs_down
         })?.reversed()?.apply {
-            urbanDescription.postValue(DefinitionResponse(this))
+            urbanDescription.postValue(
+                DefinitionResponse(
+                    this
+                )
+            )
         }
 
     }

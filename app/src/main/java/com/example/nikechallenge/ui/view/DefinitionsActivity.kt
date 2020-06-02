@@ -1,4 +1,4 @@
-package com.example.nikechallenge.view
+package com.example.nikechallenge.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,19 +8,22 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nikechallenge.R
-import com.example.nikechallenge.model.DefinitionResponse
+import com.example.nikechallenge.model.data.DefinitionObject
+import com.example.nikechallenge.model.data.DefinitionResponse
+import com.example.nikechallenge.ui.adapter.IDefinitionClickListener
+import com.example.nikechallenge.ui.adapter.DefinitionListAdapter
 import com.example.nikechallenge.viewmodel.DefinitionsViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class DefinitionsActivity : AppCompatActivity(), IDefinitionClickListener {
 
+    private val definitionFragment: DefinitionFragment = DefinitionFragment()
     private val definitionsViewModel: DefinitionsViewModel by viewModel()
 
     private val urbanAdapter : DefinitionListAdapter by lazy {
         DefinitionListAdapter()
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             })
         definitionsViewModel.getUrbanDescriptionError().observe(this,
             Observer<String> { t ->
-                t?.let { Toast.makeText(this@MainActivity, t, Toast.LENGTH_SHORT).show()}
+                t?.let { Toast.makeText(this@DefinitionsActivity, t, Toast.LENGTH_SHORT).show()}
             })
     }
 
@@ -70,7 +73,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initAdapter(dataSet: DefinitionResponse){
-        urbanAdapter.dataSet = dataSet
+        urbanAdapter.apply{
+            this.dataSet = dataSet
+            IDefinitionClickListener = this@DefinitionsActivity
+        }
     }
 
     fun searchForDefinition(userInput: String) {
@@ -100,6 +106,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun openSelectedDefinition(definition: DefinitionObject) {
+        definitionFragment.arguments = Bundle().also {
+            it.putParcelable(DefinitionFragment.DEFINITION_KEY, definition)
+        }
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.definition_framelayout, definitionFragment)
+            .addToBackStack(definitionFragment.tag)
+            .commit()
     }
 
 }

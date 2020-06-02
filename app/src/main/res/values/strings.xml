@@ -4,4 +4,5 @@
     <string name="drawer">drawer</string>
     <string name="most_liked">Most Liked</string>
     <string name="most_disliked">Most Disliked</string>
+    <string name="DefinitionText">Definition:</string>
 </resources>

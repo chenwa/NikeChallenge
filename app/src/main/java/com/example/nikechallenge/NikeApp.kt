@@ -2,7 +2,7 @@ package com.example.nikechallenge
 
 import android.app.Application
 import android.content.Context
-import com.example.nikechallenge.model.Repository
+import com.example.nikechallenge.model.network.Repository
 import com.example.nikechallenge.viewmodel.DefinitionsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel

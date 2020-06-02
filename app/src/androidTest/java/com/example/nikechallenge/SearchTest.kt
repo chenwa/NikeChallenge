@@ -10,7 +10,7 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.example.nikechallenge.view.MainActivity
+import com.example.nikechallenge.ui.view.DefinitionsActivity
 import android.widget.AutoCompleteTextView
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +20,7 @@ import org.junit.Rule
 
 class SearchTest{
 
-    @get:Rule var activityRule = ActivityTestRule(MainActivity::class.java)
+    @get:Rule var activityRule = ActivityTestRule(DefinitionsActivity::class.java)
 
     @Test
     fun testSearchInput(){

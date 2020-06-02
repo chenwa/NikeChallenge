@@ -1,9 +1,10 @@
-package com.example.nikechallenge.model
+package com.example.nikechallenge.model.network
 
 import android.content.Context
 import android.net.ConnectivityManager
 import com.example.nikechallenge.BuildConfig
 import com.example.nikechallenge.NikeApp
+import com.example.nikechallenge.model.data.DefinitionResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Cache
@@ -27,12 +28,13 @@ interface IRapidApi {
     fun getResponse(@Query("term") input: String): Call<DefinitionResponse>
 
     companion object {
+        // Store one instance of rapidAPI
         private lateinit var rapidAPI: IRapidApi
 
         // Use retrofit to make RapidAPI call
         fun getRetrofit(): IRapidApi {
             if (this::rapidAPI.isInitialized) {
-                return rapidAPI as IRapidApi
+                return rapidAPI
             }
 
             rapidAPI = Retrofit.Builder()
@@ -59,6 +61,7 @@ interface IRapidApi {
             if (BuildConfig.DEBUG) {
                 client.addInterceptor(logger)
             }
+
             client.addInterceptor {
                 var request = it.request()
                 request = if (isOffLine())
@@ -86,8 +89,8 @@ interface IRapidApi {
 
             var isConnected = false
 
-            connectiviyManager.activeNetworkInfo?.let {
-                isConnected = it.isConnected
+            connectiviyManager.isDefaultNetworkActive.let { isNetworkActive ->
+                isConnected = isNetworkActive
             }
 
             return isConnected

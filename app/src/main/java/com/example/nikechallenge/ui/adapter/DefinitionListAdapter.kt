@@ -1,4 +1,4 @@
-package com.example.nikechallenge.view
+package com.example.nikechallenge.ui.adapter
 
 import com.example.nikechallenge.R
 import android.view.LayoutInflater
@@ -6,13 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nikechallenge.model.DefinitionObject
-import com.example.nikechallenge.model.DefinitionResponse
+import com.example.nikechallenge.model.data.DefinitionObject
+import com.example.nikechallenge.model.data.DefinitionResponse
 
 class DefinitionListAdapter : RecyclerView.Adapter<DefinitionListAdapter.DefinitionViewHolder>() {
 
-    var dataSet: DefinitionResponse? = null
+     var IDefinitionClickListener: IDefinitionClickListener? = null
+         set(value) {
+             field = value
+             notifyDataSetChanged()
+         }
 
+    var dataSet: DefinitionResponse? = null
     set(value) {
         field = value
         notifyDataSetChanged()
@@ -23,14 +28,18 @@ class DefinitionListAdapter : RecyclerView.Adapter<DefinitionListAdapter.Definit
             LayoutInflater.from(parent.context).inflate(
                 R.layout.definition_item_layout,
                 parent,
-                false)
+                false
+            )
         )
 
     override fun getItemCount() = dataSet?.list?.size?: 0
 
     override fun onBindViewHolder(holder: DefinitionViewHolder, position: Int) {
-        dataSet?.list?.let {
-            holder.onBind(it[position])
+        dataSet?.list?.get(position)?.let { definition ->
+            holder.onBind(definition)
+            holder.itemView.setOnClickListener {
+                IDefinitionClickListener?.openSelectedDefinition(definition)
+            }
         }
     }
 

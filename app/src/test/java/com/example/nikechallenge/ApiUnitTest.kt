@@ -1,7 +1,7 @@
 package com.example.nikechallenge
 
-import com.example.nikechallenge.model.DefinitionResponse
-import com.example.nikechallenge.model.IRapidApi
+import com.example.nikechallenge.model.data.DefinitionResponse
+import com.example.nikechallenge.model.network.IRapidApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.Test
@@ -41,8 +41,8 @@ class ApiUnitTest {
                     t.printStackTrace()
                     fail()
                 }
-                override fun onResponse( call: Call<DefinitionResponse>,
-                    response: Response<DefinitionResponse>
+                override fun onResponse(call: Call<DefinitionResponse>,
+                                        response: Response<DefinitionResponse>
                 ) {
                     result = response.body()!!
                 }

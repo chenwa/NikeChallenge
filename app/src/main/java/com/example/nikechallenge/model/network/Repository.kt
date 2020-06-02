@@ -1,5 +1,6 @@
-package com.example.nikechallenge.model
+package com.example.nikechallenge.model.network
 
+import com.example.nikechallenge.model.data.DefinitionResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
